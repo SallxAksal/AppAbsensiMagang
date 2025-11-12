@@ -198,3 +198,326 @@ body {
     color: #a0040d;
     border-color: #a0040d;
 }
+/* ========================================
+     Clean responsive admin stylesheet
+     - Fixed left sidebar on desktop
+     - Toggleable overlay sidebar on mobile
+     - Simple, predictable grid for dashboard
+     ======================================== */
+
+:root{
+    /* Core colors */
+    --primary: #E30613; /* Telkom red */
+    --primary-600: #B50410;
+    --primary-dark: #8b030e;
+    --primary-light: rgba(227,6,19,0.06);
+
+    --bg: #F7F8FA;
+    --surface: #FFFFFF;
+    --white: #ffffff;
+    --muted: #6B7280;
+    --text: #111827;
+
+    /* Grays used by components */
+    --gray-50: #fafafa;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+
+    --success: #10b981;
+    --danger: #ef4444;
+
+    /* Shadows & radii */
+    --shadow: 0 6px 18px rgba(23,23,23,0.06);
+    --shadow-sm: 0 6px 12px rgba(23,23,23,0.04);
+    --shadow-md: 0 10px 24px rgba(23,23,23,0.08);
+    --shadow-lg: 0 20px 40px rgba(23,23,23,0.10);
+    --shadow-xl: 0 30px 60px rgba(23,23,23,0.12);
+
+    --radius: 10px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-full: 9999px;
+
+    /* Spacing + transitions */
+    --spacing-1: 4px;
+    --spacing-2: 6px;
+    --spacing-3: 8px;
+    --spacing-4: 12px;
+    --spacing-5: 16px;
+    --spacing-6: 20px;
+    --spacing-8: 32px;
+    --spacing-12: 48px;
+
+    --transition-base: 220ms;
+    --transition-fast: 120ms;
+
+    /* Layout */
+    --sidebar-width: 16rem; /* 256px */
+}
+
+/* Basic resets */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+
+/* App layout wrapper */
+.admin-app{min-height:100vh;display:flex;flex-direction:column}
+
+/* Desktop layout container */
+.app-shell{display:flex;min-height:100vh}
+
+/* SIDEBAR - supports both .sidebar and .admin-sidebar names used in templates */
+.sidebar, .admin-sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:var(--sidebar-width);
+    background:linear-gradient(135deg, #1a1a1a 0%, #2d1f1f 50%, #1a1a1a 100%);
+    border-right:3px solid var(--primary);
+    padding:20px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    z-index:40;
+    box-shadow:2px 0 15px rgba(227,6,19,0.15);
+}
+
+/* Mobile: hidden off-canvas by default */
+@media (max-width: 991px){
+    .sidebar, .admin-sidebar{
+        transform:translateX(-110%);
+        transition:transform .28s ease;
+        box-shadow:-2px 0 15px rgba(227,6,19,0.2);
+    }
+    .sidebar.open, .admin-sidebar.open{transform:none}
+    .sidebar .scroll, .admin-sidebar .scroll{overflow:auto;padding-bottom:80px}
+}
+
+/* Brand */
+.sidebar .brand, .admin-sidebar .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    margin:0 -16px;
+    padding-left:16px;
+    padding-right:16px;
+    background:linear-gradient(90deg, rgba(227,6,19,0.15) 0%, rgba(227,6,19,0.05) 100%);
+    border-radius:0 12px 12px 0;
+    border-left:4px solid var(--primary);
+}
+.sidebar .brand .logo, .admin-sidebar .brand .logo{
+    width:44px;
+    height:44px;
+    border-radius:8px;
+    background:linear-gradient(135deg, var(--primary) 0%, #ff4444 100%);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-weight:700;
+    font-size:20px;
+    box-shadow:0 4px 15px rgba(227,6,19,0.4);
+}
+.sidebar .brand .title, .admin-sidebar .brand .title{
+    font-weight:700;
+    font-size:15px;
+    color:#ffffff;
+}
+.sidebar .brand .sub, .admin-sidebar .brand .sub{
+    font-size:12px;
+    color:rgba(255,255,255,0.6);
+}
+
+/* NAV */
+.nav, .sidebar-nav{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.nav-item, .nav-link{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    border-radius:8px;
+    color:#cccccc;
+    text-decoration:none;
+    transition:all 0.3s ease;
+    position:relative;
+    overflow:hidden;
+}
+.nav-item::before, .nav-link::before{
+    content:'';
+    position:absolute;
+    left:0;
+    top:0;
+    height:100%;
+    width:3px;
+    background:var(--primary);
+    transform:scaleY(0);
+    transition:transform 0.3s ease;
+    border-radius:0 4px 4px 0;
+}
+.nav-item .icon, .nav-link .icon{
+    width:28px;
+    height:28px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:6px;
+    background:rgba(227,6,19,0.1);
+    color:#ff6666;
+    transition:all 0.3s ease;
+}
+.nav-item:hover, .nav-link:hover{
+    background:rgba(227,6,19,0.08);
+    color:#ffffff;
+    transform:translateX(4px);
+}
+.nav-item:hover::before, .nav-link:hover::before{
+    transform:scaleY(1);
+}
+.nav-item:hover .icon, .nav-link:hover .icon{
+    background:rgba(227,6,19,0.2);
+    color:var(--primary);
+}
+.nav-item.active, .nav-link.active{
+    background:linear-gradient(90deg, rgba(227,6,19,0.25) 0%, rgba(227,6,19,0.1) 100%);
+    color:#ffffff;
+    border-left:3px solid var(--primary);
+    padding-left:9px;
+}
+.nav-item.active::before, .nav-link.active::before{
+    transform:scaleY(1);
+}
+.nav-item.active .icon, .nav-link.active .icon{
+    background:linear-gradient(135deg, var(--primary) 0%, #ff4444 100%);
+    color:white;
+    box-shadow:0 4px 12px rgba(227,6,19,0.3);
+}
+
+/* Spacer to push account block to bottom */
+.sidebar .spacer, .admin-sidebar .spacer{flex:1}
+
+/* Account area at bottom */
+.sidebar .account, .admin-sidebar .account{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    margin:0 -16px;
+    border-radius:12px;
+    background:linear-gradient(90deg, rgba(227,6,19,0.1) 0%, rgba(227,6,19,0.05) 100%);
+    border-left:4px solid var(--primary);
+    margin-left:0;
+    margin-right:0;
+}
+.sidebar .account .avatar, .admin-sidebar .account .avatar{
+    width:44px;
+    height:44px;
+    border-radius:999px;
+    background:linear-gradient(135deg, var(--primary), #ff6666);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    color:white;
+    box-shadow:0 4px 12px rgba(227,6,19,0.3);
+}
+.sidebar .account .meta{display:flex;flex-direction:column}
+.sidebar .account .meta .name{
+    font-weight:600;
+    color:#ffffff;
+}
+.sidebar .account .meta .role{
+    font-size:12px;
+    color:rgba(255,255,255,0.6);
+}
+
+/* Overlay for mobile */
+.mobile-overlay{position:fixed;inset:0;background:rgba(2,6,23,0.45);z-index:30;opacity:0;visibility:hidden;transition:all .2s ease}
+.mobile-overlay.open{opacity:1;visibility:visible}
+
+/* MAIN content - leave space for desktop sidebar */
+.main-wrapper{flex:1;margin-left:var(--sidebar-width);padding:28px 28px 80px;background:transparent;min-height:100vh;transition:margin .2s ease}
+
+/* Support when using .admin-sidebar naming */
+.admin-main{flex:1;margin-left:var(--sidebar-width);padding:28px}
+
+/* Mobile adjustments: full width (no left margin) */
+@media (max-width:991px){
+    .main-wrapper, .admin-main{margin-left:0;padding:18px}
+}
+
+/* Simple utility: topbar (optional) */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;background:transparent}
+
+/* Cards and panels */
+.card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+.card .title{font-size:13px;color:var(--muted);margin-bottom:8px}
+.card .value{font-size:20px;font-weight:700}
+
+/* Grid for dashboard */
+.grid{display:grid;gap:18px}
+.grid.cols-4{grid-template-columns:repeat(4,1fr)}
+.grid.cols-3{grid-template-columns:repeat(3,1fr)}
+.grid.cols-2{grid-template-columns:repeat(2,1fr)}
+@media (max-width:1200px){.grid.cols-4{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:900px){.grid.cols-4,.grid.cols-3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.grid.cols-4,.grid.cols-3,.grid.cols-2{grid-template-columns:1fr}}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--text);cursor:pointer}
+.btn-primary{background:linear-gradient(90deg,var(--primary),var(--primary-600));color:white;border-color:transparent}
+.btn-ghost{background:transparent;border:1px solid rgba(15,23,42,0.06)}
+
+/* Small responsive tweaks */
+.kpi{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.kpi .left{display:flex;flex-direction:column}
+.kpi .right{font-size:20px;font-weight:700}
+
+/* helpers */
+.text-muted{color:var(--muted)}
+.small{font-size:13px}
+
+/* Charts placeholder */
+.chart-placeholder{height:220px;border-radius:10px;background:linear-gradient(180deg,rgba(15,23,42,0.02),rgba(15,23,42,0.01));display:flex;align-items:center;justify-content:center;color:var(--muted)}
+
+/* accessibility focus */
+.nav-item:focus, .nav-link:focus{outline:2px solid rgba(227,6,19,0.5);outline-offset:2px}
+
+/* Sidebar abstract background decorations */
+.sidebar::before, .admin-sidebar::before{
+    content:'';
+    position:absolute;
+    top:-50px;
+    right:-50px;
+    width:150px;
+    height:150px;
+    background:radial-gradient(circle, rgba(227,6,19,0.15) 0%, transparent 70%);
+    border-radius:50%;
+    pointer-events:none;
+}
+
+.sidebar::after, .admin-sidebar::after{
+    content:'';
+    position:absolute;
+    bottom:-30px;
+    left:-30px;
+    width:120px;
+    height:120px;
+    background:radial-gradient(circle, rgba(227,6,19,0.1) 0%, transparent 70%);
+    border-radius:50%;
+    pointer-events:none;
+}
+
+/* Make sure modals/popovers appear above sidebar when necessary */
+.z-top{z-index:60}
+
+/* Fallback: ensure both .sidebar and .admin-sidebar work with blade templates using either name */
+/* End of file */

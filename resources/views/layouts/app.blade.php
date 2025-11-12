@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'App') — Telkom Witel Bandung</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
 <body class="min-h-screen bg-gray-50">
@@ -50,9 +49,77 @@
             });
             overlay && overlay.addEventListener('click', closeSidebar);
         })();
-    </script>
+
+        // Logout functionality with modal and notifications
+        (function(){
+            const logoutBtn = document.getElementById('logoutBtn');
+            const logoutModal = document.getElementById('logoutModal');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+            const modalOkBtn = document.getElementById('modalOkBtn');
+            const toast = document.getElementById('toast');
+
+            if(!logoutBtn) return;
+
+            // Show modal when logout button clicked
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                logoutModal.classList.remove('hidden');
+            });
+
+            // Handle cancel button
+            modalCancelBtn.addEventListener('click', () => {
+                logoutModal.classList.add('hidden');
+                showToast('Logout dibatalkan', 'error');
+            });
+
+            // Handle OK button - proceed with logout
+            modalOkBtn.addEventListener('click', () => {
+                logoutModal.classList.add('hidden');
+                showToast('Berhasil logout', 'success');
+                
+                // Wait for toast to show, then logout
+                setTimeout(() => {
+                    // Create and submit hidden form for logout
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '{{ route("logout") }}';
+                    form.innerHTML = '@csrf';
+                    document.body.appendChild(form);
+                    form.submit();
+                }, 1000);
+            });
+
+            // Close modal when clicking on overlay
+            const modalOverlay = logoutModal.querySelector('.modal-overlay');
+            modalOverlay.addEventListener('click', () => {
+                logoutModal.classList.add('hidden');
+            });
+
+            // Function to show toast notification (centered)
+            function showToast(message, type) {
+                toast.textContent = message;
+                // reset classes
+                toast.className = '';
+                // set base classes
+                toast.classList.add('pointer-events-auto', 'text-white', 'px-4', 'py-2', 'rounded', 'shadow-lg');
+                if (type === 'success') {
+                    toast.classList.add('bg-green-600');
+                } else if (type === 'error') {
+                    toast.classList.add('bg-red-600');
+                } else {
+                    toast.classList.add('bg-gray-800');
+                }
+
+                // show
+                toast.classList.remove('hidden');
+
+                // hide after 3s
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 3000);
+            }
+        })();
 
     @stack('scripts')
 </body>
 </html>
-<!-- duplicate tail removed; this layout intentionally keeps a single HTML document that includes the sidebar and main content -->
