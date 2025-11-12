@@ -1,0 +1,200 @@
+/* public/css/app.css */
+
+/* Define Telkom Witel Bandung colors as CSS variables */
+:root {
+    --telkom-red: #e30613;
+    --telkom-white: #ffffff;
+    --telkom-gray: #6e6e6e;
+    --text-dark: #333333;
+    --text-light: #f0f0f0;
+    --header-height: 4rem; /* Define header height for padding adjustment */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding-top: var(--header-height); /* Add padding to body to prevent content from hiding under fixed header */
+    background-color: var(--text-light); /* Light background for general content */
+    color: var(--text-dark);
+}
+
+/* Header Styling */
+.header {
+    background-color: var(--telkom-red);
+    color: var(--telkom-white);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Make header sticky */
+    top: 0; /* Position at the top */
+    width: 100%; /* Full width */
+    z-index: 1000; /* Ensure it stays on top */
+    height: var(--header-height); /* Set explicit height */
+    box-sizing: border-box; /* Include padding in height calculation */
+}
+
+.header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--telkom-white);
+    text-decoration: none;
+}
+
+.header nav a {
+    color: var(--telkom-white);
+    text-decoration: none;
+    margin-left: 1.5rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.header nav a:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Hero Section Styling */
+.hero-section {
+    background-color: var(--telkom-white); /* White background for hero */
+    color: var(--text-dark);
+    padding: 6rem 2rem; /* More padding for a spacious feel */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; /* Taller hero section */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hero-title {
+    color: var(--telkom-red); /* Red for the main heading */
+    font-size: 3rem; /* Larger title */
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero-description {
+    font-size: 1.3rem;
+    max-width: 700px;
+    margin: 0 auto 2.5rem auto;
+    color: var(--text-dark);
+}
+
+.hero-actions {
+    margin-top: 2rem;
+}
+
+.hero-actions .btn {
+    margin: 0 0.5rem; /* Space between buttons */
+}
+
+/* Features Section Styling */
+.features-section {
+    background-color: var(--text-light); /* Light background for features */
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.section-title {
+    color: var(--telkom-red);
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    font-weight: bold;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background-color: var(--telkom-white);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.feature-title {
+    color: var(--telkom-red);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.feature-description {
+    color: var(--text-dark);
+    font-size: 1rem;
+}
+
+/* About Section Styling */
+.about-section {
+    background-color: var(--telkom-white); /* White background for about */
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.about-description {
+    font-size: 1.1rem;
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.6;
+    color: var(--text-dark);
+}
+
+
+/* Footer Styling */
+.footer {
+    background-color: var(--telkom-gray);
+    color: var(--telkom-white);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+/* Button Styling */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem; /* Tailwind-like rounded-md */
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.btn-primary {
+    background-color: var(--telkom-red);
+    color: var(--telkom-white);
+}
+
+.btn-primary:hover {
+    background-color: #c00510; /* Slightly darker red */
+}
+
+.btn-secondary {
+    background-color: var(--telkom-white);
+    color: var(--telkom-red);
+    border-color: var(--telkom-red);
+}
+
+.btn-secondary:hover {
+    background-color: #f0f0f0;
+    color: #a0040d;
+    border-color: #a0040d;
+}
